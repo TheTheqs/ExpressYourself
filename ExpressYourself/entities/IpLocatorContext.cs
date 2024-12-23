@@ -3,26 +3,34 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace ExpressYourself.entities;
-
+//Core class of the Entity Framework. All database access will be handled through it via the DB class, the official central hub
+// for database access.
 public partial class IpLocatorContext : DbContext
-{
+{   
+    //Constructors
+    //The lines Countries = null! and Ipaddresses = null! were added to both constructors to suppress warnings.
     public IpLocatorContext()
     {
+        Countries = null!;
+        Ipaddresses = null!;
     }
 
     public IpLocatorContext(DbContextOptions<IpLocatorContext> options)
         : base(options)
     {
+        Countries = null!;
+        Ipaddresses = null!;
     }
-
+    //Attributes: Represent tables in the database. These attributes provide all CRUD methods for their respective tables.
     public virtual DbSet<Country> Countries { get; set; }
 
     public virtual DbSet<Ipaddress> Ipaddresses { get; set; }
 
+    //Configuration
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseNpgsql("Host=localhost;Database=ip_locator;Username=postgres;Password=Marina22");
 
+    //Build Methods: Creates an object based on the data providade from the Bank.
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Country>(entity =>
