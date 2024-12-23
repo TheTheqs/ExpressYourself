@@ -1,0 +1,80 @@
+To adapt the commands for PostgreSQL, the following changes will be applied:
+
+-The lines SET ANSI_NULLS ON GO and SET QUOTED_IDENTIFIER ON GO will not be necessary, as ANSI compliance and quoted identifiers are default standards in PostgreSQL.
+
+-The keyword GO will be replaced by a semicolon ";".
+
+-The dbo keyword is not required in PostgreSQL.
+
+-Square brackets [] will be replaced by double quotes "".
+
+-The IDENTITY keyword will be replaced by SERIAL.
+
+-The datetime2 data type will be replaced by TIMESTAMP.
+
+-UNIQUE constraints added to Name and ISO codes from Countries.
+
+-The DEFAULT CURRENT_TIMESTAMP clause will be added to automatically populate the CreatedAt and UpdatedAt fields when they are NULL during record creation (BUT NOT ON UPDATE).
+
+COMMANDS
+Country table creation:
+CREATE TABLE "Countries" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(50) NOT NULL UNIQUE,
+    "TwoLetterCode" CHAR(2) NOT NULL UNIQUE,
+    "ThreeLetterCode" CHAR(3) NOT NULL UNIQUE,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+IPAddresses table creation:
+CREATE TABLE "IPAddresses" (
+    "Id" SERIAL PRIMARY KEY,
+    "CountryId" INT NOT NULL REFERENCES "Countries"("Id"),
+    "IP" VARCHAR(15) NOT NULL UNIQUE,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+DataBase Seed:
+Countries
+INSERT INTO "Countries" ("Id", "Name", "TwoLetterCode", "ThreeLetterCode", "CreatedAt")
+VALUES 
+    (1, 'Greece', 'GR', 'GRC', '2022-10-12T06:46:10.500000'),
+    (2, 'Germany', 'DE', 'DEU', '2022-10-12T06:46:10.500000'),
+    (3, 'Cyprus', 'CY', 'CYP', '2022-10-12T06:46:10.500000'),
+    (4, 'United States', 'US', 'USA', '2022-10-12T06:46:10.500000'),
+    (6, 'Spain', 'ES', 'ESP', '2022-10-12T06:46:10.500000'),
+    (7, 'France', 'FR', 'FRA', '2022-10-12T06:46:10.500000'),
+    (8, 'Italy', 'IT', 'IA ', '2022-10-12T06:46:10.500000'),
+    (9, 'Japan', 'JP', 'JPN', '2022-10-12T06:46:10.500000'),
+    (10, 'China', 'CN', 'CHN', '2022-10-12T06:46:10.500000');
+
+
+IPAdresses
+INSERT INTO "IPAddresses" ("Id", "CountryId", "IP", "CreatedAt", "UpdatedAt")
+VALUES 
+    (6, 1, '44.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (7, 2, '45.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (8, 3, '46.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (9, 4, '47.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (10, 6, '49.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (11, 7, '41.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (12, 8, '42.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (13, 9, '43.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666'),
+    (14, 10, '50.255.255.254', '2022-10-12T07:04:06.856666', '2022-10-12T07:04:06.856666');
+
+Additional commands:
+ALTER TABLE "IPAddresses" ALTER COLUMN "CreatedAt" SET DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "IPAddresses" ALTER COLUMN "UpdatedAt" SET DEFAULT CURRENT_TIMESTAMP;
+
+The Following code provides the Report Table, in the same format as presented on the Project Document.
+SELECT 
+    "Countries"."Name" AS "CountryName",
+    COUNT("IPAddresses"."Id") AS "AddressesCount",
+    MAX("IPAddresses"."UpdatedAt") AS "LastAddressUpdate"
+FROM 
+    "Countries"
+INNER JOIN 
+    "IPAddresses" ON "Countries"."Id" = "IPAddresses"."CountryId"
+GROUP BY 
+    "Countries"."Name";
