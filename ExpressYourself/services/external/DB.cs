@@ -71,6 +71,7 @@ public static class DB { //DB stands for DATABASE!!
         {
             using (var context = new IpLocatorContext())
             {
+                Console.WriteLine("Getting from DB!");
                 return await context.Ipaddresses
                 .Include(c => c.Country) //Necessary line to include the entire Country Object in the instance
                 .SingleOrDefaultAsync(i => i.Ip == ip);
