@@ -13,6 +13,13 @@ var options = new JsonSerializerOptions {WriteIndented = true};
 
 app.MapGet("/", () => "Hello World!");
 
+//Util endpoint for sendip control
+app.MapPost("/toggleip", () =>
+{
+    sendIp = !sendIp;
+    return Results.Ok(sendIp);
+});
+
 app.MapGet("/{Ip}", async (string Ip) => 
 {
     try
