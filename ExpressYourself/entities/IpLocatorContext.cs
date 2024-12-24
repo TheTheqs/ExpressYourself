@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ExpressYourself.entities;
 //Core class of the Entity Framework. All database access will be handled through it via the DB class, the official central hub

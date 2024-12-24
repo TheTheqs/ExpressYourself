@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace ExpressYourself.entities;
 //Country partial class, made for the constructor and equals function creation. This is needed to avoid editing the EF generated class.
 public partial class Country 

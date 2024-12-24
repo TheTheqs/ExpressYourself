@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace ExpressYourself.entities;
 //Manualy created class to build Report objects. Using partial word just to follow the other classes, a partial will not be needed.
 public partial class Report {    
