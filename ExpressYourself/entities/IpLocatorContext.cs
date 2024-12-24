@@ -5,24 +5,20 @@ namespace ExpressYourself.entities;
 // for database access.
 public partial class IpLocatorContext : DbContext
 {   
+
+    //Attributes: Represent tables in the database. These attributes provide all CRUD methods for their respective tables.
+    public virtual DbSet<Country> Countries { get; set; } = null!;
+
     //Constructors
-    //The lines Countries = null! and Ipaddresses = null! were added to both constructors to suppress warnings.
+    public virtual DbSet<Ipaddress> Ipaddresses { get; set; } = null!;
     public IpLocatorContext()
     {
-        Countries = null!;
-        Ipaddresses = null!;
     }
 
     public IpLocatorContext(DbContextOptions<IpLocatorContext> options)
         : base(options)
     {
-        Countries = null!;
-        Ipaddresses = null!;
     }
-    //Attributes: Represent tables in the database. These attributes provide all CRUD methods for their respective tables.
-    public virtual DbSet<Country> Countries { get; set; }
-
-    public virtual DbSet<Ipaddress> Ipaddresses { get; set; }
 
     //Configuration
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

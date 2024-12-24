@@ -7,28 +7,44 @@ namespace ExpressYourself.services;
 public static class DS { //Stands for Data Serializer!!
     
     //Get ip origin without the IP
-    public static async Task<String> GetCountry(Ipaddress ipaddress)
+    public static async Task<object> GetCountry(Ipaddress ipaddress)
     {
-        var jsoned = new
+        try
         {
-            ipaddress.Country.Name,
-            ipaddress.Country.TwoLetterCode,
-            ipaddress.Country.ThreeLetterCode
-        };
+            var jsoned = new
+            {
+                CountryName = ipaddress.Country.Name, //CountryName attribution for better display
+                ipaddress.Country.TwoLetterCode,
+                ipaddress.Country.ThreeLetterCode
+            };
 
-        return await Task.Run(() => JsonSerializer.Serialize(jsoned));
+        return await Task.Run(() => jsoned);
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return "Error: Could not parse object to JSON!";
     }
     //Get ip origin with the IP
-    public static async Task<String> GetIpCountry(Ipaddress ipaddress)
+    public static async Task<object> GetIpCountry(Ipaddress ipaddress)
     {
-        var jsoned = new
+        try
         {
-            ipaddress.Ip,
-            ipaddress.Country.Name,
-            ipaddress.Country.TwoLetterCode,
-            ipaddress.Country.ThreeLetterCode
-        };
+            var jsoned = new
+            {
+                ipaddress.Ip,
+                CountryName = ipaddress.Country.Name, //CountryName attribution for better display
+                ipaddress.Country.TwoLetterCode,
+                ipaddress.Country.ThreeLetterCode
+            };
 
-        return await Task.Run(() => JsonSerializer.Serialize(jsoned));
+        return await Task.Run(() => jsoned);
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return "Error: Could not parse object to JSON!";
     }
 }

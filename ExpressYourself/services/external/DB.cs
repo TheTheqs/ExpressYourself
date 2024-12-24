@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -11,127 +12,202 @@ public static class DB { //DB stands for DATABASE!!
     //C- Create
     public static async Task<bool> SaveCountry(Country newCountry) //Country
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            await context.Countries.AddAsync(newCountry);
-            await context.SaveChangesAsync();
-            return true;
-        };
+            using (var context = new IpLocatorContext())
+            {
+                await context.Countries.AddAsync(newCountry);
+                await context.SaveChangesAsync();
+                return true;
+            };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return false;
     }
         public static async Task<bool> SaveIP(Ipaddress newIP) //IP
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            await context.Ipaddresses.AddAsync(newIP);
-            await context.SaveChangesAsync();
-            return true;
-        };
+            using (var context = new IpLocatorContext())
+            {
+                await context.Ipaddresses.AddAsync(newIP);
+                await context.SaveChangesAsync();
+                return true;
+            };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return false;
+
     }
 
     //R - Read
     // the "?" is necessary to avoid warnings.
     public static async Task<Country?> GetCountryByCode(String twoLetterCode) //Country
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            return await context.Countries
-            .FirstOrDefaultAsync(c => c.TwoLetterCode == twoLetterCode);
-        };
+            using (var context = new IpLocatorContext())
+            {
+                return await context.Countries
+                .SingleOrDefaultAsync(c => c.TwoLetterCode == twoLetterCode);
+            };
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return null;
     }
 
     public static async Task<Ipaddress?> GetIpaddress(String ip) //IP
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            return await context.Ipaddresses
-            .FirstOrDefaultAsync(i => i.Ip == ip);
-        };
+            using (var context = new IpLocatorContext())
+            {
+                return await context.Ipaddresses
+                .Include(c => c.Country) //Necessary line to include the entire Country Object in the instance
+                .SingleOrDefaultAsync(i => i.Ip == ip);
+                
+            };
+        }
+        catch (Exception err)
+        {
+           Console.WriteLine(err.Message); 
+        }
+        return null;
     }
 
     //U - Update - Only for Ipaddress
     public static async Task<bool> UpdateIP(Ipaddress uIP) //IP
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            var ipAddress = await context.Ipaddresses
-            .SingleOrDefaultAsync(i => i.Ip == uIP.Ip);
-            if(ipAddress != null)
+            using (var context = new IpLocatorContext())
             {
-                ipAddress.CountryId = uIP.CountryId;
-                ipAddress.UpdatedAt = DateTime.UtcNow;
-                return true;
+                var ipAddress = await context.Ipaddresses
+                .SingleOrDefaultAsync(i => i.Ip == uIP.Ip);
+                if(ipAddress != null)
+                {
+                    ipAddress.CountryId = uIP.CountryId;
+                    ipAddress.UpdatedAt = DateTime.UtcNow;
+                    return true;
+                };
+                return false;
             };
-            return false;
-        };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return false;
     }
 
     //D- Destroy - This function is not meant to be used, since there is no destruction of data from the 
     //database in the current application scope. But it's important to have it for a possible further usage.
     public static async Task<bool> DeleteCountry(Country oCountry) //Country
     { 
-        using (var context = new IpLocatorContext())
+        try
         {
-            var country = await context.Countries.FindAsync(oCountry.Id);
-            if(country != null)
+            using (var context = new IpLocatorContext())
             {
-                context.Countries.Remove(country);
-                context.SaveChanges();
-                return true;
+                var country = await context.Countries.FindAsync(oCountry.Id);
+                if(country != null)
+                {
+                    context.Countries.Remove(country);
+                    context.SaveChanges();
+                    return true;
+                };
+                return false;
             };
-            return false;
-        };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return false;
     }
         public static async Task<bool> DeleteIP(Ipaddress oIpAddress) //IP
     { 
-        using (var context = new IpLocatorContext())
+        try
         {
-            var ipAddress = await context.Ipaddresses.FirstOrDefaultAsync(i => i.Ip == oIpAddress.Ip);
-            if(ipAddress != null)
+            using (var context = new IpLocatorContext())
             {
-                context.Ipaddresses.Remove(ipAddress);
-                context.SaveChanges();
-                return true;
+                var ipAddress = await context.Ipaddresses.FirstOrDefaultAsync(i => i.Ip == oIpAddress.Ip);
+                if(ipAddress != null)
+                {
+                    context.Ipaddresses.Remove(ipAddress);
+                    context.SaveChanges();
+                    return true;
+                };
+                return false;
             };
-            return false;
-        };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return false;
     }
     
     //Util functions
     //Get Country ID - This function returns A country id or create a new country in the database if does not exist and return its id.
     public static async Task<int> GetCountryId(Country nCountry)
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            var country = await GetCountryByCode(nCountry.TwoLetterCode);
-            if(country == null)
+            using (var context = new IpLocatorContext())
             {
-                await SaveCountry(nCountry);
-                country = await GetCountryByCode(nCountry.TwoLetterCode);
+                var country = await GetCountryByCode(nCountry.TwoLetterCode);
+                if(country == null)
+                {
+                    await SaveCountry(nCountry);
+                    country = await GetCountryByCode(nCountry.TwoLetterCode);
+                };
+                if(country != null)
+                {
+                    return country.Id;
+                };
+                return 0; //Necessary to remove the warning
             };
-            if(country != null)
-            {
-                return country.Id;
-            };
-            return 0; //Necessary to remove the warning
-        };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return 0;
     }
 
-    //Get Ip ID - This function returns A ip id or create a new ip in the database if does not exist and return its id.
+    //Get Ip ID - This function returns a ip id or create a new ip in the database if does not exist and return its id.
     public static async Task<int> GetIpId(Ipaddress nIpaddress)
     {
-        using (var context = new IpLocatorContext())
+        try
         {
-            var nIp = await GetIpaddress(nIpaddress.Ip);
-            if(nIp == null)
+            using (var context = new IpLocatorContext())
             {
-                await SaveIP(nIpaddress);
-                nIp = await GetIpaddress(nIpaddress.Ip);
+                var nIp = await GetIpaddress(nIpaddress.Ip);
+                if(nIp == null)
+                {
+                    await SaveIP(nIpaddress);
+                    nIp = await GetIpaddress(nIpaddress.Ip);
+                };
+                if(nIp != null)
+                {
+                    return nIp.Id;
+                };
+                return 0; //Necessary to remove the warning
             };
-            if(nIp != null)
-            {
-                return nIp.Id;
-            };
-            return 0; //Necessary to remove the warning
-        };
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return 0;
     }
 };

@@ -2,6 +2,8 @@ namespace ExpressYourself.entities;
 //Country partial class, made for the constructor. This is needed to avoid editing the EF generated class.
 public partial class Ipaddress
 {
+    //Empty Constructor. Necessary for EF to work.
+    public Ipaddress () {}
     //Basic constructor. Used only in the class itself.
     private Ipaddress (String ip, Country country)
     {

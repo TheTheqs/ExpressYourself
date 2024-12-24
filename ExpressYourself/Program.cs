@@ -1,4 +1,5 @@
 //All generics imports are in GlobalUsings
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -7,6 +8,8 @@ var app = builder.Build();
 
 //Ip in response control variable
 bool sendIp = false;
+//JSON formating - This cannot stay in the DS class.
+var options = new JsonSerializerOptions {WriteIndented = true};
 
 app.MapGet("/", () => "Hello World!");
 
@@ -21,9 +24,9 @@ app.MapGet("/{Ip}", async (string Ip) =>
         }
             if(sendIp)
         {
-            return Results.Json(await DS.GetIpCountry(ipaddress)); //Results with IP in it.
+            return Results.Json(await DS.GetIpCountry(ipaddress), options); //Results with IP in it.
         }
-        return Results.Json(await DS.GetCountry(ipaddress)); //Results without IP in it.
+        return Results.Json(await DS.GetCountry(ipaddress), options); //Results without IP in it.
     } 
     catch(Exception err)
     {
