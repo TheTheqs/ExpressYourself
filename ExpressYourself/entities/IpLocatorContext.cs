@@ -22,9 +22,9 @@ public partial class IpLocatorContext : DbContext
 
     //Configuration
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=ip_locator;Username=postgres;Password=Marina22");
+        => optionsBuilder.UseNpgsql("Host=localhost;Database=ip_locator;Username=postgres;Password=Marina22;Include Error Detail=true");
 
-    //Build Methods: Creates an object based on the data providade from the Bank.
+    //Build Methods
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Country>(entity =>
@@ -56,7 +56,7 @@ public partial class IpLocatorContext : DbContext
             entity.ToTable("IPAddresses");
 
             entity.HasIndex(e => e.Ip, "IPAddresses_IP_key").IsUnique();
-
+            
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("timestamp without time zone");

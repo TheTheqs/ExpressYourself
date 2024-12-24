@@ -10,29 +10,37 @@ namespace ExpressYourself.services;
 // These methods return a boolean to communicate the success or failure of the operations.
 public static class DB { //DB stands for DATABASE!!
     //C- Create
-    public static async Task<bool> SaveCountry(Country newCountry) //Country
+    public static async Task<Country?> SaveCountry(Country newCountry) //Country. Return Country for better performance ai EA class.
     {
         try
         {
             using (var context = new IpLocatorContext())
             {
+                Console.WriteLine("Trying to save country");
                 await context.Countries.AddAsync(newCountry);
                 await context.SaveChangesAsync();
-                return true;
+                Console.WriteLine("Country saved in th Database");
+                return newCountry;
             };
         }
         catch(Exception err)
         {
             Console.WriteLine(err.Message);
+            if(err.InnerException != null)
+            {
+            Console.WriteLine(err.InnerException.Message);
+            }
         }
-        return false;
+        return null;
     }
-        public static async Task<bool> SaveIP(Ipaddress newIP) //IP
+        public static async Task<bool> SaveIP(Ipaddress cloneIP) //IP
     {
         try
         {
+            Ipaddress newIP = new Ipaddress(cloneIP); //by that, you garantee that Country is null, this is necessary to avoid save it too.
             using (var context = new IpLocatorContext())
             {
+                Console.WriteLine("Tryng to save IP");
                 await context.Ipaddresses.AddAsync(newIP);
                 await context.SaveChangesAsync();
                 return true;
@@ -41,6 +49,10 @@ public static class DB { //DB stands for DATABASE!!
         catch(Exception err)
         {
             Console.WriteLine(err.Message);
+            if(err.InnerException != null)
+            {
+            Console.WriteLine(err.InnerException.Message + " This ERROR");
+            }
         }
         return false;
 
@@ -55,7 +67,7 @@ public static class DB { //DB stands for DATABASE!!
             using (var context = new IpLocatorContext())
             {
                 return await context.Countries
-                .SingleOrDefaultAsync(c => c.TwoLetterCode == twoLetterCode);
+                .FirstOrDefaultAsync(c => c.TwoLetterCode == twoLetterCode);
             };
         }
         catch (Exception err)
@@ -74,7 +86,7 @@ public static class DB { //DB stands for DATABASE!!
                 Console.WriteLine("Getting from DB!");
                 return await context.Ipaddresses
                 .Include(c => c.Country) //Necessary line to include the entire Country Object in the instance
-                .SingleOrDefaultAsync(i => i.Ip == ip);
+                .FirstOrDefaultAsync(i => i.Ip == ip);
                 
             };
         }
@@ -156,59 +168,21 @@ public static class DB { //DB stands for DATABASE!!
         }
         return false;
     }
-    
-    //Util functions
-    //Get Country ID - This function returns A country id or create a new country in the database if does not exist and return its id.
-    public static async Task<int> GetCountryId(Country nCountry)
-    {
-        try
-        {
-            using (var context = new IpLocatorContext())
-            {
-                var country = await GetCountryByCode(nCountry.TwoLetterCode);
-                if(country == null)
-                {
-                    await SaveCountry(nCountry);
-                    country = await GetCountryByCode(nCountry.TwoLetterCode);
-                };
-                if(country != null)
-                {
-                    return country.Id;
-                };
-                return 0; //Necessary to remove the warning
-            };
-        }
-        catch(Exception err)
-        {
-            Console.WriteLine(err.Message);
-        }
-        return 0;
-    }
 
-    //Get Ip ID - This function returns a ip id or create a new ip in the database if does not exist and return its id.
-    public static async Task<int> GetIpId(Ipaddress nIpaddress)
+    //Util, the following class is used to check if a country already exist in the database
+    public static async Task<bool> HasCountry(String code)
     {
         try
         {
-            using (var context = new IpLocatorContext())
+            using(var context = new IpLocatorContext())
             {
-                var nIp = await GetIpaddress(nIpaddress.Ip);
-                if(nIp == null)
-                {
-                    await SaveIP(nIpaddress);
-                    nIp = await GetIpaddress(nIpaddress.Ip);
-                };
-                if(nIp != null)
-                {
-                    return nIp.Id;
-                };
-                return 0; //Necessary to remove the warning
-            };
+                return await context.Countries.AnyAsync(c => c.TwoLetterCode == code);
+            }
         }
         catch(Exception err)
         {
             Console.WriteLine(err.Message);
         }
-        return 0;
+        return false;
     }
 };

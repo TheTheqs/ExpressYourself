@@ -11,7 +11,6 @@ public partial class Country
         this.Name = name;
         this.TwoLetterCode = twoLetterCode;
         this.ThreeLetterCode = threeLetterCode;
-        this.CreatedAt = DateTime.UtcNow;
     }
 
     //Comparable function (Equals Override)

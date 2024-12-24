@@ -35,7 +35,21 @@ app.MapGet("/{Ip}", async (String Ip) =>
             ipaddress = await DB.GetIpaddress(Ip);
             if(ipaddress == null)
             {
-                return Results.NotFound(); //Return 404 when the IP does not exist in the date (just a test)
+                //Try to get from the external IP
+                ipaddress = await EA.GetIp(Ip);
+                if(ipaddress == null)
+                {
+                    return Results.NotFound(new {Message = "The requested IP address could not be found or does not exist."}); //Return 404 when the IP does not exist in any source
+                }
+                //adding to the database
+                if(await DB.SaveIP(ipaddress))
+                {
+                    Console.WriteLine("Ip saved in the DataBase");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to save new IP in the DataBase");
+                }
             }
             //adding to the cache
             if(await CM.Create<String, Ipaddress>(Ip, ipaddress))

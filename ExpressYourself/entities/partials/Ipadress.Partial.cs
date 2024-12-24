@@ -4,25 +4,16 @@ public partial class Ipaddress
 {
     //Empty Constructor. Necessary for EF to work.
     public Ipaddress () {}
-    //Basic constructor. Used only in the class itself.
-    private Ipaddress (String ip, Country country)
+    //Basic constructor
+    public Ipaddress (String ip, Country country)
     {
         this.Ip = ip;
         this.Country = country;
         this.CountryId = country.Id;
-        this.CreatedAt = DateTime.UtcNow;
-        this.UpdatedAt = DateTime.UtcNow;
     }
-
-    //Official constructor, used in the project. Needed to make sure Country.id is always valid
-    //To create a new IP entity is a delegation only for the EA class
-    public static async Task<Ipaddress> NewIpAsync(String ip, Country country)
+    public Ipaddress(Ipaddress clone) //This clone constructor is necessary in the save IP process (DB)
     {
-        if(country.Id == 0)
-        {
-            country.Id = await DB.GetCountryId(country);
-        };
-
-        return new Ipaddress(ip, country);
+        this.Ip = clone.Ip;
+        this.CountryId = clone.CountryId;
     }
 }
