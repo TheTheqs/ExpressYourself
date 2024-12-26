@@ -12,20 +12,4 @@ public partial class Country
         this.TwoLetterCode = twoLetterCode;
         this.ThreeLetterCode = threeLetterCode;
     }
-
-    //Comparable function (Equals Override)
-       public override bool Equals(object? obj)
-    {
-        if (obj is not Country other)
-        return false;
-
-        return (this.Name == other.Name && 
-                this.TwoLetterCode == other.TwoLetterCode && 
-                this.ThreeLetterCode == other.ThreeLetterCode);
-    }
-    //HashCode override, needed due to warning when you override Equals but do not override HashCode
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Name, TwoLetterCode, ThreeLetterCode);
-    }
 };

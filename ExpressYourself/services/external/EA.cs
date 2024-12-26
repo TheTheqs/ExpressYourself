@@ -24,6 +24,10 @@ public static class EA //Stands for External API
             {
                 return null; //Return null for an unexpected error (format error)
             }
+            if(columns[3] is string columnValue)
+            {
+                columns[3] = columnValue.Substring(0, Math.Min(columnValue.Length, 50)); //This will assure that the new Country name can be added to the DataBase
+            }
             Country? country = new Country(columns[3], columns[1].Trim(), columns[2].Trim());
             if(await DB.HasCountry(columns[1]))
             {

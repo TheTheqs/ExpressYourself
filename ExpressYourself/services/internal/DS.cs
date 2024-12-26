@@ -47,4 +47,32 @@ public static class DS { //Stands for Data Serializer!!
         }
         return "Error: Could not parse object to JSON!";
     }
+
+    public static async Task<object> GetUpdateReport(String[] strings)
+    {
+        try
+        {
+            if(string.IsNullOrEmpty(strings[0]))
+            {
+                strings[0] = "There is no IP to be Updated!";
+            }
+            if(string.IsNullOrEmpty(strings[1]))
+            {
+                strings[1] = "There is no IP to be Deleted!";
+            }
+
+            var jsoned = new
+                {
+                    updatedIPs = strings[0],
+                    deletedIPs = strings[1] 
+                };
+
+            return await Task.Run(() => jsoned);
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return "Error: Could not parse object to JSON!";
+    }
 }

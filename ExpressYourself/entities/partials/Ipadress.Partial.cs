@@ -16,4 +16,11 @@ public partial class Ipaddress
         this.Ip = clone.Ip;
         this.CountryId = clone.CountryId;
     }
+
+    //Test constructor
+    public Ipaddress(String ip, int countryId)
+    {
+        this.Ip = ip;
+        this.CountryId = countryId;
+    }
 }

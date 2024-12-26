@@ -63,13 +63,15 @@ public static class CM //Stands for Cache Memory!
     {
         try
         {
+            Console.WriteLine("Trying to update value in cache...");
             if(cache != null)
             {
                 if(!cache.TryGetValue(key, out _))
                 {
-                    return false; //Key does not existe. This context is also suposed to never happen.
+                    return false; //Key does not exist. This context is also suposed to never happen.
                 }
                 cache.Set(key, value, DefaultCacheOptions);
+                Console.WriteLine("Succes Update Value");
                 return await Task.FromResult(true); //Success
             }
         }
@@ -77,8 +79,33 @@ public static class CM //Stands for Cache Memory!
         {
             Console.WriteLine(err.Message);
         }
+        Console.WriteLine("Failed to update cache value");
         return false;
 
+    }
+    //Delete function - Used when an IP reference is no longer.
+       public static async Task<bool> Delete<String> (String key)
+    {
+        Console.WriteLine("Trying to delete value from cache...");
+        try
+        {
+            if(cache != null && key != null)
+            {
+                if(!cache.TryGetValue(key, out _))
+                {
+                    return false; //Key does not existe. This context is suposed to never happen.
+                }
+                cache.Remove(key);
+                Console.WriteLine("Successfully deleted value");
+                return await Task.FromResult(true); //Success
+            }
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine("Failed to delete value from cache");
+            Console.WriteLine(err.Message);
+        }
+        return false;
     }
     //Verify if the key exist. Will be used in the upgrade system
     public static async Task<bool> HasKey(String key)

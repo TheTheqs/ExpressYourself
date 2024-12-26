@@ -109,7 +109,7 @@ public static class DB { //DB stands for DATABASE!!
                 if(ipAddress != null)
                 {
                     ipAddress.CountryId = uIP.CountryId;
-                    ipAddress.UpdatedAt = DateTime.UtcNow;
+                    ipAddress.UpdatedAt = GetCurrentTime();
                     return true;
                 };
                 return false;
@@ -122,8 +122,7 @@ public static class DB { //DB stands for DATABASE!!
         return false;
     }
 
-    //D- Destroy - This function is not meant to be used, since there is no destruction of data from the 
-    //database in the current application scope. But it's important to have it for a possible further usage.
+    //D- Destroy - This function is meant to be used only when an IP in the data is no longe ascessible by the External API.
     public static async Task<bool> DeleteCountry(Country oCountry) //Country
     { 
         try
@@ -169,7 +168,8 @@ public static class DB { //DB stands for DATABASE!!
         return false;
     }
 
-    //Util, the following class is used to check if a country already exist in the database
+    //Util
+    //The following function is used to check if a country already exist in the database
     public static async Task<bool> HasCountry(String code)
     {
         try
@@ -184,5 +184,27 @@ public static class DB { //DB stands for DATABASE!!
             Console.WriteLine(err.Message);
         }
         return false;
+    }
+    //The following function generates a Date variable without timezone for DataBase compatibility.
+    public static DateTime GetCurrentTime()
+    {
+        DateTime compatibleDateTime = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified); // get a date without timezone
+        return compatibleDateTime;
+    }
+    //The following function return the number of IPs in the DataBase
+    public static async Task<int> GetIpCount()
+    {
+        try
+        {
+            using (var context = new IpLocatorContext())
+            {
+                return await context.Ipaddresses.CountAsync();
+            }
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return -1; //Return a non valid value in case of error. 0 could cause some trouble in the Update Class.
     }
 };
