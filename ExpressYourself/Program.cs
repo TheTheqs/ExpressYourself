@@ -6,7 +6,8 @@ using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache(); //Cache declaration needed.
-builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
+//builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
+DB.Initialize(builder.Configuration.GetConnectionString("PostgresConnection")); //DB configuration for the raw sql usage (third task)
 var app = builder.Build();
 //Cache configuration
 CM.Configure(app.Services.GetRequiredService<IMemoryCache>());
@@ -24,6 +25,25 @@ app.MapPost("/toggleip", () =>
     return Results.Ok(sendIp);
 });
 
+//Get report endpoint - need to be before the get IP.
+app.MapGet("/report", async (string? countries) => 
+{
+    try
+    {
+        if(string.IsNullOrEmpty(countries))
+        {
+            var result = DS.GetReports(await DB.GetAllReports());
+            return Results.Ok(result);
+        }
+        return Results.NotFound(new {Message = "There is no Reports to be given"});
+    }
+    catch(Exception err)
+    {
+       return Results.Problem(detail: err.Message, title: "[Error]An error occurred");
+    }
+});
+
+//Main endpoint. Used to get 
 app.MapGet("/{Ip}", async (String Ip) => 
 {
     try
@@ -40,26 +60,26 @@ app.MapGet("/{Ip}", async (String Ip) =>
                 ipaddress = await EA.GetIp(Ip);
                 if(ipaddress == null)
                 {
-                    return Results.NotFound(new {Message = "The requested IP address could not be found or does not exist."}); //Return 404 when the IP does not exist in any source
+                    return Results.NotFound(new {Message = $"The requested IP {Ip} address could not be found or does not exist."}); //Return 404 when the IP does not exist in any source
                 }
                 //adding to the database
                 if(await DB.SaveIP(ipaddress))
                 {
-                    Console.WriteLine("Ip saved in the DataBase");
+                    Console.WriteLine($"[System]Ip {ipaddress.Ip} was saved in the DataBase");
                 }
                 else
                 {
-                    Console.WriteLine("Failed to save new IP in the DataBase");
+                    Console.WriteLine($"[Error]Failed to save new IP {ipaddress.Ip} in the DataBase");
                 }
             }
             //adding to the cache
             if(await CM.Create<String, Ipaddress>(Ip, ipaddress))
             {
-                Console.WriteLine("Added to the Cache");
+                Console.WriteLine($"[System]Ip {ipaddress.Ip} was saved in the Cache Memory");
             }
             else
             {
-                Console.WriteLine("Failed to add on the cache");
+                Console.WriteLine($"[Error]Failed to IP add IP {ipaddress.Ip} in the cache");
             }
         }
         //Requisition finals
@@ -71,7 +91,7 @@ app.MapGet("/{Ip}", async (String Ip) =>
     } 
     catch(Exception err)
     {
-        return Results.Problem(detail: err.Message, title: "An error occurred");
+        return Results.Problem(detail: err.Message, title: "[Error]An error occurred");
     }
 });
 

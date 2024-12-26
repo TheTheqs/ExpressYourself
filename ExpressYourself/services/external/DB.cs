@@ -1,14 +1,23 @@
+using System.Data;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Npgsql;
 
 namespace ExpressYourself.services;
-// This class centralizes all database operations, serving as the only layer interacting with the Entity Framework.
-// As a static class, it has no attributes, only methods representing all CRUD operations for each table.
+// This class centralizes all database operations, serving as the only layer interacting with the Entity Framework and PostGree.
+// As a static class, it has no attributes, only methods representing all CRUD operations for each table and some Util functionalities.
 // The framework's access will always be done through punctual instantiation of the DbContext.
 // All CRUD functions are asynchronous to ensure better performance, considering the potential high volume of requests. 
 // These methods return a boolean to communicate the success or failure of the operations.
 public static class DB { //DB stands for DATABASE!!
+    //The following static attribute and function are necessary for the third task, which need the application of raw sql.
+    private static string? _connectionString;
+
+    public static void Initialize(string? connectionString)
+    {
+        _connectionString = connectionString;
+    }
     //C- Create
     public static async Task<Country?> SaveCountry(Country newCountry) //Country. Return Country for better performance ai EA class.
     {
@@ -233,5 +242,40 @@ public static class DB { //DB stands for DATABASE!!
         }
         Console.WriteLine("Failed at getting packed IP for the updating function");
         return new List<Ipaddress>(); // Return an empty list on failure
+    }
+    //Below you will find all database interactions for the Third task.
+    public static async Task<DataTable?> GetAllReports()
+    {
+        var dataTable = new DataTable(); //empty returnable object
+        try
+        {
+            String query = @" 
+                SELECT 
+                    ""Countries"".""Name"" AS ""CountryName"",
+                    COUNT(""IPAddresses"".""Id"") AS ""AddressesCount"",
+                    MAX(""IPAddresses"".""UpdatedAt"") AS ""LastAddressUpdate""
+                FROM 
+                    ""Countries""
+                INNER JOIN 
+                    ""IPAddresses"" ON ""Countries"".""Id"" = ""IPAddresses"".""CountryId""
+                GROUP BY 
+                    ""Countries"".""Name""
+                ORDER BY 
+                    ""Countries"".""Name"";
+                "; //The actual Query that provides all countries from the database.
+
+            await using var connection = new NpgsqlConnection(_connectionString); //create a connection and open it.
+            await connection.OpenAsync();
+            await using var queryCommand = new NpgsqlCommand(query, connection); //build the commando object
+            await using var response = await queryCommand.ExecuteReaderAsync(); //create a response
+            dataTable.Load(response); //try to atatch the attribute to the Data Table
+
+            return dataTable;
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return dataTable;        
     }
 };
