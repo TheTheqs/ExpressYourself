@@ -26,7 +26,7 @@ public static class CM //Stands for Cache Memory!
         {
             if(cache != null && cache.TryGetValue(key, out Ipaddress? value)) //? for warning removing.
             {
-                Console.WriteLine("Getting from Cache!");
+                Console.WriteLine($"[Request] The IP {key} was successefully requested from the CACHE");
                 return  await Task.FromResult(value);
             }
             return null;

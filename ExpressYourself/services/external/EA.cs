@@ -31,16 +31,16 @@ public static class EA //Stands for External API
             Country? country = new Country(columns[3], columns[1].Trim(), columns[2].Trim());
             if(await DB.HasCountry(columns[1]))
             {
-                Console.WriteLine("Country is already in the DataBase");
                 country = await DB.GetCountryByCode(columns[1]);
             }
             else
             {
+                Console.WriteLine($"[Update]New Country was found: {columns[3]}. Addition to the DataBase will be requested!");
                 country = await DB.SaveCountry(country);
             }
-            Console.WriteLine("Getting from the EA");
             if(country != null)
             {
+                Console.WriteLine($"[Request] The IP {ip} was successefully requested from the External API");
                 return new Ipaddress(ip, country); //Create a new Ip obj. The NewIpAsync assure that the country will be added on data if not existed.
             }
         }
@@ -48,6 +48,7 @@ public static class EA //Stands for External API
         {
             Console.WriteLine(err.Message);
         }
+        Console.WriteLine($"[Request] The IP {ip} has no reference in the the External API");
         return null;
     }
 }

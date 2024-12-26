@@ -6,25 +6,29 @@ public static class UD // Stands for Update Data!!
     //The following function will get every IP in the Database (100 by 100) and call the update funtion for each pack
     public static async Task<String> UpdateDataBase()
     {
-        Console.WriteLine("Starting database update...");
-        StringBuilder updated = new StringBuilder().Append("Updated IPs: ");
+        Console.WriteLine("[Update]Starting database update...");
+        StringBuilder updated = new StringBuilder().Append("[Update]Updated IPs: ");
         StringBuilder deleted = new StringBuilder().Append("Deleted Ips: ");
         try
         {
-
-            int totalPacks = (int)Math.Ceiling((Double)await DB.GetIpCount()/100); // get the next integer number from the total ips /100.
+            int totalIp = await DB.GetIpCount();
+            Console.WriteLine($"[Update]Total Ips in the Database: {totalIp}");
+            int totalPacks = (int)Math.Ceiling((Double)totalIp/100); // get the next integer number from the total ips /100.
             if(totalPacks <= 0)
             {
                 return "Error at total packs calculation";
             }
+            Console.WriteLine($"[Update]Cicles needed: {totalPacks}");
             for(int i = 0; i < totalPacks; i ++)
             {
+                Console.WriteLine($"[Update]Staring Cicle nº {i + 1}");
                 int startIndex = i*100;
                 int endIndex = startIndex + 100;
                 List<Ipaddress> ipaddresses = await DB.GetIpaddressesPack(startIndex, endIndex);
                 if(ipaddresses.Count == 0)
                 {
-                    return "Error at getting packed IPs: list is empty";
+                    Console.WriteLine("Error at getting packed IPs: list is empty");
+                    continue;
                 }
                 String[] response = await UpdateAdresses(ipaddresses);
                 updated.Append(response[0]);
@@ -45,7 +49,7 @@ public static class UD // Stands for Update Data!!
     {   
         if (ipList == null || !ipList.Any()) //List validation
         {
-            Console.WriteLine("IP list is empty or null.");
+            Console.WriteLine("[Error]IP list is empty or null.");
             return new string[] { "", "" };
         }
         try
@@ -56,31 +60,38 @@ public static class UD // Stands for Update Data!!
             //Comparison
             foreach (Ipaddress ip in ipList)
                 {
-                    Console.WriteLine("Vindo aqui");
                     Ipaddress? reference = await EA.GetIp(ip.Ip); //Getting the reference from EA.
                     if(reference == null) //This ip is no longer accessible
                     {
                         if(await DB.DeleteIP(ip) == false)
                         {
-                            Console.WriteLine("Failed at IP destruction");
+                            Console.WriteLine("[Error]Failed at IP destruction");
+                            continue;
                         }
                         deleted.Add(ip.Ip);
                         if(await CM.HasKey(ip.Ip))
                         {
                             await CM.Delete(ip.Ip);
+
                         }
+                        Console.WriteLine($"[Update]The Ip {ip} no longer has a reference and has been deleted.");
                     } 
                     else if (reference.CountryId != ip.CountryId)
                     {
+                        Console.WriteLine($"[Update]Saved Ip and Reference has diferent Origin. Requiring Update...");
                         if(await DB.UpdateIP(reference) == false)
                         {
-                            Console.WriteLine("Failed at IP Update");
+                            Console.WriteLine("[Error]Failed at IP Update");
                         }
                         if(await CM.HasKey(ip.Ip))
                         {
                             await CM.Update(ip.Ip, reference);
                         }
                         updated.Add(ip.Ip);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[Update]The Ip {ip.Ip} and its reference has the same origin.");
                     }
                 }
             //Finishing fuction

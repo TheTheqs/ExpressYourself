@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache(); //Cache declaration needed.
+builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
 var app = builder.Build();
 //Cache configuration
 CM.Configure(app.Services.GetRequiredService<IMemoryCache>());
