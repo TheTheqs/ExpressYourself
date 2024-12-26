@@ -3,6 +3,43 @@ namespace ExpressYourself.services;
 //This class holds the Update System logic, but not the automation aspect.
 public static class UD // Stands for Update Data!!
 {
+    //The following function will get every IP in the Database (100 by 100) and call the update funtion for each pack
+    public static async Task<String> UpdateDataBase()
+    {
+        Console.WriteLine("Starting database update...");
+        StringBuilder updated = new StringBuilder().Append("Updated IPs: ");
+        StringBuilder deleted = new StringBuilder().Append("Deleted Ips: ");
+        try
+        {
+
+            int totalPacks = (int)Math.Ceiling((Double)await DB.GetIpCount()/100); // get the next integer number from the total ips /100.
+            if(totalPacks <= 0)
+            {
+                return "Error at total packs calculation";
+            }
+            for(int i = 0; i < totalPacks; i ++)
+            {
+                int startIndex = i*100;
+                int endIndex = startIndex + 100;
+                List<Ipaddress> ipaddresses = await DB.GetIpaddressesPack(startIndex, endIndex);
+                if(ipaddresses.Count == 0)
+                {
+                    return "Error at getting packed IPs: list is empty";
+                }
+                String[] response = await UpdateAdresses(ipaddresses);
+                updated.Append(response[0]);
+                deleted.Append(response[1]);
+            }
+            String report = updated.ToString() + "\n" + deleted.ToString(); //Building response.
+            return report;
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return "Error at update call!";
+    }
+
     //Update Function
     public static async Task<String[]> UpdateAdresses(List<Ipaddress> ipList)
     {   
@@ -14,7 +51,7 @@ public static class UD // Stands for Update Data!!
         try
         {
             //Result Strings
-            List<String> changed = new List<String>(); //To reference the changed IPs
+            List<String> updated = new List<String>(); //To reference the changed IPs
             List<String> deleted = new List<String>(); //To reference the IP that are no longer acessible.
             //Comparison
             foreach (Ipaddress ip in ipList)
@@ -43,11 +80,11 @@ public static class UD // Stands for Update Data!!
                         {
                             await CM.Update(ip.Ip, reference);
                         }
-                        changed.Add(ip.Ip);
+                        updated.Add(ip.Ip);
                     }
                 }
             //Finishing fuction
-            String[] response = {BuildString(changed), BuildString(deleted)};
+            String[] response = {BuildString(updated), BuildString(deleted)};
             return response;
         }
         catch(Exception err)

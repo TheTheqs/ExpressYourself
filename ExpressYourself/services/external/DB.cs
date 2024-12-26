@@ -110,6 +110,7 @@ public static class DB { //DB stands for DATABASE!!
                 {
                     ipAddress.CountryId = uIP.CountryId;
                     ipAddress.UpdatedAt = GetCurrentTime();
+                    await context.SaveChangesAsync();
                     return true;
                 };
                 return false;
@@ -206,5 +207,31 @@ public static class DB { //DB stands for DATABASE!!
             Console.WriteLine(err.Message);
         }
         return -1; //Return a non valid value in case of error. 0 could cause some trouble in the Update Class.
+    }
+    //The following function is used at the update function
+    public static async Task<List<Ipaddress>> GetIpaddressesPack(int startIndex, int endIndex)
+    {
+        try
+        {
+            if (startIndex < 0 || endIndex < startIndex)
+            {
+                throw new ArgumentException("Invalid range specified"); //To avoid any possible error
+            }
+            int count = endIndex - startIndex + 1; //number of itens in the list (suposed to be always 100)
+            using (var context = new IpLocatorContext())
+            {
+                return await context.Ipaddresses
+                .OrderBy(x => x.Id) //ordering by Id
+                .Skip(startIndex) //Starting from the given position
+                .Take(count) //get equal or less the count number
+                .ToListAsync(); //convert into a list, given in the response.
+            }
+        }
+        catch(Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        Console.WriteLine("Failed at getting packed IP for the updating function");
+        return new List<Ipaddress>(); // Return an empty list on failure
     }
 };
