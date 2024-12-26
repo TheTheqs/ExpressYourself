@@ -1,5 +1,7 @@
 using System.Data;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Npgsql;
@@ -243,6 +245,7 @@ public static class DB { //DB stands for DATABASE!!
         Console.WriteLine("Failed at getting packed IP for the updating function");
         return new List<Ipaddress>(); // Return an empty list on failure
     }
+
     //Below you will find all database interactions for the Third task.
     public static async Task<DataTable?> GetAllReports()
     {
@@ -277,5 +280,107 @@ public static class DB { //DB stands for DATABASE!!
             Console.WriteLine(err.Message);
         }
         return dataTable;        
+    }
+    public static async Task<(DataTable?, String?)> GetSelectedReports(List<String> countryCodes) //Need to return DataTable and String
+    {
+        var dataTable = new DataTable(); //empty returnable object
+        List<String>? invalidCodes = await ValidateCodes(countryCodes);//code validation
+        countryCodes.RemoveAll(invalidCodes.Contains);
+        if(countryCodes.Count() > 0)
+        {
+            try
+            {
+                String query = @"
+                SELECT 
+                    ""Countries"".""Name"" AS ""CountryName"",
+                    COUNT(""IPAddresses"".""Id"") AS ""AddressesCount"",
+                    MAX(""IPAddresses"".""UpdatedAt"") AS ""LastAddressUpdated""
+                FROM 
+                    ""Countries""
+                INNER JOIN 
+                    ""IPAddresses"" ON ""Countries"".""Id"" = ""IPAddresses"".""CountryId""
+                WHERE ""Countries"".""TwoLetterCode"" IN (" + string.Join(",", countryCodes.Select((_, i) => $"@p{i}")) + @")
+                GROUP BY ""Countries"".""Name""
+                ORDER BY ""Countries"".""Name"";
+                "; //This Query provides filtered countries from the database.
+                await using var connection = new NpgsqlConnection(_connectionString); //create a connection and open it.
+                await connection.OpenAsync();
+
+                await using var queryCommand = new NpgsqlCommand(query, connection); //build the command object
+
+                for (int i = 0; i < countryCodes.Count; i++)
+                {
+                    queryCommand.Parameters.AddWithValue($"@p{i}", countryCodes[i]); //add the parameters
+                }
+
+                await using var response = await queryCommand.ExecuteReaderAsync(); //create a response
+                dataTable.Load(response); //try to atatch the attribute to the Data Table
+            }
+            catch (Exception err)
+            {
+                Console.WriteLine(err.Message);
+            }           
+        }
+        //adding a warning in case there was invalid provided data
+        string invalidMessage = invalidCodes.Count > 0 
+        ? string.Join(", ", invalidCodes)
+        : string.Empty;
+        return (dataTable, invalidMessage); //Return seccessfull request
+    }
+
+    //The following function will filter the provided Country List and will return an array with codes that has no data.
+    //This could be done with EF, but to keep accurate to the task requisistion we will use raw SQL
+    private static async Task<List<string>> ValidateCodes(List<string> countryCodes)
+    {
+        // Lista para armazenar os códigos inválidos.
+        var invalidCodes = new List<string>();
+
+        try
+        {
+            foreach(String codezin in countryCodes)
+            {
+                if(await IsItemInDatabase(codezin) == false)
+                {
+                    invalidCodes.Add(codezin); //add code in invalid list if it is not in database.
+                }
+            }
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+        }
+        return invalidCodes; //Return an filled or empty list
+    }
+    //Modular Function for key validation
+    private static async Task<bool> IsItemInDatabase(string item)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(item) || item.Length > 2)//Verify if item isn't null or empty
+            {
+                return false;
+            }
+
+            await using var connection = new NpgsqlConnection(_connectionString);
+            await connection.OpenAsync(); //Unfortunatelly I was not able to recicle the already openned conections :(
+
+            string query = $@" 
+                SELECT COUNT(1)
+                FROM ""Countries""
+                WHERE ""TwoLetterCode"" = @p1;
+            "; //SQL command
+
+            await using var command = new NpgsqlCommand(query, connection);
+            command.Parameters.AddWithValue("@p1", item); //getting parameter
+
+            var result = await command.ExecuteScalarAsync();//The actual validation
+
+            return Convert.ToInt32(result) > 0; //If the returned value is > 0, return true (the item is in the database). Else return false.
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine(err.Message);
+            return false; //Just in case
+        }
     }
 };

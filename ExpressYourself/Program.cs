@@ -32,10 +32,18 @@ app.MapGet("/report", async (string? countries) =>
     {
         if(string.IsNullOrEmpty(countries))
         {
-            var result = DS.GetReports(await DB.GetAllReports());
+            var result = DS.GetReports((await DB.GetAllReports(), "")); //Get the all reports from the data
             return Results.Ok(result);
         }
-        return Results.NotFound(new {Message = "There is no Reports to be given"});
+        else
+        {
+            var countryCodes = countries.Split(',') //convert the query parameters into a list
+            .Select(code => code.Trim())
+            .ToList();
+            
+            var result = DS.GetReports(await DB.GetSelectedReports(countryCodes)); //Make a call to get a filtered result.
+            return Results.Ok(result);
+        }
     }
     catch(Exception err)
     {

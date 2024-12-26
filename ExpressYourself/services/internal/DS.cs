@@ -78,30 +78,40 @@ public static class DS { //Stands for Data Serializer!!
         return "Error: Could not parse object to JSON!";
     }
     //The following function takes a DataTable and converts it into a serializable list of dictionaries.
-    public static List<Dictionary<String, object>>? GetReports(DataTable? dataTable)
-    {
-        if(dataTable == null || dataTable.Rows.Count == 0)
+    public static List<Dictionary<String, object>>? GetReports((DataTable? dataTable, string? message) reports)
+{
+    var list = new List<Dictionary<String, object>>(); //the returned list.
+    var (dataTable, message) = reports;
+        if (!string.IsNullOrWhiteSpace(message)) //Add the warning message for invalid given codes before retrieving data
         {
-            return null; //to avoid null or empty data.
-        }
-        try{
-            var list = new List<Dictionary<String, object>>(); //the returned list.
-            
-            foreach (DataRow row in dataTable.Rows) //Data table iteration
+            var messageDictionary = new Dictionary<string, object>
             {
-                var dictionary = new Dictionary<String, object>();
-                foreach (DataColumn column in dataTable.Columns)
-                {
-                    dictionary[column.ColumnName] = row[column] ?? DBNull.Value; //build every obj attribute
-                }
-                list.Add(dictionary);             
-            }
-            return list; //return a populed list
+                { "Message", $"The following codes do not have data in the database: {message}" }
+            };
+            list.Add(messageDictionary);
         }
-        catch(Exception err)
-        {
-            Console.WriteLine(err.Message);
-        }
-        return null; //return null if something goes worong.
+    if (dataTable == null || dataTable.Rows.Count == 0)
+    {
+        return list; //to avoid null or empty data.
     }
+    try
+    {
+        
+        foreach (DataRow row in dataTable.Rows) //Data table iteration
+        {
+            var dictionary = new Dictionary<String, object>();
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                dictionary[column.ColumnName] = row[column] ?? DBNull.Value; //build every obj attribute
+            }
+            list.Add(dictionary);             
+        }
+        return list; //return a populed list
+    }
+    catch (Exception err)
+    {
+        Console.WriteLine(err.Message);
+    }
+    return list; //return null if something goes worong.
+}
 }

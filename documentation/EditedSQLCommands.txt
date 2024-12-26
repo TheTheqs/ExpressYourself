@@ -77,4 +77,6 @@ FROM
 INNER JOIN 
     "IPAddresses" ON "Countries"."Id" = "IPAddresses"."CountryId"
 GROUP BY 
+    "Countries"."Name"
+ORDER BY 
     "Countries"."Name";
