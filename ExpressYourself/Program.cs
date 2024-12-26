@@ -6,25 +6,17 @@ using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache(); //Cache declaration needed.
-//builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
-//builder.Services.AddHostedService<HT>();//Requisition test: Require a random ip every 7 minutes. Remove the comment to activate, access HT class to edit timer
+builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
+builder.Services.AddHostedService<HT>();//Requisition test: Require a random ip every X minutes. Remove the comment to activate, access HT class to edit timer
+builder.Services.AddHostedService<EH>();//Endpoint requisition automatic test, remove the comment to activate.
 DB.Initialize(builder.Configuration.GetConnectionString("PostgresConnection")); //DB configuration for the raw sql usage (third task)
 var app = builder.Build();
 //Cache configuration
 CM.Configure(app.Services.GetRequiredService<IMemoryCache>());
-//Ip in response control variable
-bool sendIp = false;
 //JSON formating - This cannot stay in the DS class.
 var options = new JsonSerializerOptions {WriteIndented = true};
 
-app.MapGet("/", () => "Hello World!");
-
-//Util endpoint for sendip control
-app.MapPost("/toggleip", () =>
-{
-    sendIp = !sendIp;
-    return Results.Ok(sendIp);
-});
+app.MapGet("/", () => "Hello World! Hey");
 
 //Get report endpoint - need to be before the get IP.
 app.MapGet("/report", async (string? countries) => 
@@ -91,12 +83,7 @@ app.MapGet("/{Ip}", async (String Ip) =>
                 Console.WriteLine($"[Error]Failed to IP add IP {ipaddress.Ip} in the cache");
             }
         }
-        //Requisition finals
-        if(sendIp)
-        {
-            return Results.Json(await DS.GetIpCountry(ipaddress), options); //Results with IP in it.
-        }
-        return Results.Json(await DS.GetCountry(ipaddress), options); //Results without IP in it.
+        return Results.Json(await DS.GetCountry(ipaddress), options); //Results
     } 
     catch(Exception err)
     {

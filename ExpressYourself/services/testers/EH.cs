@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Hosting;
 namespace ExpressYourself.services;
-//This class maintain the automation aspect of the request test
-public class HT : IHostedService, IDisposable //Stands for Hosted Test
+//This class contain the automation aspect of the endpoint test
+public class EH : IHostedService, IDisposable //Stands for Endpoint Hosted
 {
     private Timer? timer;
-    private readonly TimeSpan interval = TimeSpan.FromMinutes(2); //Period between every excecution.
+    private readonly TimeSpan interval = TimeSpan.FromMinutes(15); //Period between every excecution.
     private bool isRunning = false; //Conflit controler
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -32,13 +32,13 @@ public class HT : IHostedService, IDisposable //Stands for Hosted Test
         {
             isRunning = true;
             timer?.Change(Timeout.Infinite, 0); //This will prevents the timer to keep going while the task is running. It is facultative
-            Console.WriteLine($"Starting Hosted Requisition Test Service at: {DateTime.Now}");
+            Console.WriteLine($"Starting EndPoint Hosted Requisition Test Service at: {DateTime.Now}");
             await CurrentTask(); //The actual function to be called
-            Console.WriteLine($"Ending Hosted Requisition Test Service at: {DateTime.Now}");
+            Console.WriteLine($"Ending EndPoint Hosted Requisition Test Service at: {DateTime.Now}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Hosted Requisition Test Service Error: {ex.Message}"); // Execution Log
+            Console.WriteLine($"EndPoint Hosted Requisition Test Service Error: {ex.Message}"); // Execution Log
         }
         finally
         {
@@ -49,7 +49,7 @@ public class HT : IHostedService, IDisposable //Stands for Hosted Test
 
     private async Task CurrentTask()
     {
-        await RT.ReqRandomIP(); //Calling the request function
-        Console.WriteLine("Executed Function!(Hosted Service)"); //Execution Log
+        await ET.ReqRandomIP(); //Calling the test
+        Console.WriteLine("Executed Function!(Hosted EndPoint Service)"); //Execution Log
     }
 }

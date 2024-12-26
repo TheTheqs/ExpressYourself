@@ -62,7 +62,7 @@ public static class DB { //DB stands for DATABASE!!
             Console.WriteLine(err.Message);
             if(err.InnerException != null)
             {
-            Console.WriteLine(err.InnerException.Message + " This ERROR");
+            Console.WriteLine(err.InnerException.Message);
             }
         }
         return false;
@@ -361,7 +361,7 @@ public static class DB { //DB stands for DATABASE!!
             }
 
             await using var connection = new NpgsqlConnection(_connectionString);
-            await connection.OpenAsync(); //Unfortunatelly I was not able to recicle the already openned conections :(
+            await connection.OpenAsync(); //Unfortunatelly I was not able to reuse the already openned conections :(
 
             string query = $@" 
                 SELECT COUNT(1)
