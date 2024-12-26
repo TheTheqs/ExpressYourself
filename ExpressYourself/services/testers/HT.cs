@@ -2,10 +2,10 @@ using Microsoft.Extensions.Hosting;
 namespace ExpressYourself.services;
 //This class contain the automation aspect of the update functionallity
 //This class do not contain any logic about the Update process and only holds the automation aspect. Which means it can hold any kind of task.
-public class HS : IHostedService, IDisposable //Stands for Hosted Service
+public class HT : IHostedService, IDisposable //Stands for Hosted Service
 {
     private Timer? timer;
-    private readonly TimeSpan interval = TimeSpan.FromHours(1); //Period between every excecution. Set to be 1 hour
+    private readonly TimeSpan interval = TimeSpan.FromMinutes(5); //Period between every excecution. Set to be 1 hour
     private bool isRunning = false; //Conflit controler
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -33,13 +33,13 @@ public class HS : IHostedService, IDisposable //Stands for Hosted Service
         {
             isRunning = true;
             timer?.Change(Timeout.Infinite, 0); //This will prevents the timer to keep going while the task is running. It is facultative
-            Console.WriteLine($"Starting Hosted Service at: {DateTime.Now}");
+            Console.WriteLine($"Starting Hosted Requisition Test Service at: {DateTime.Now}");
             await CurrentTask(); //The actual function to be called
-            Console.WriteLine($"Ending Hosted Service at: {DateTime.Now}");
+            Console.WriteLine($"Ending Hosted Requisition Test Service at: {DateTime.Now}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Hosted Service Error: {ex.Message}"); // Execution Log
+            Console.WriteLine($"Hosted Requisition Test Service Error: {ex.Message}"); // Execution Log
         }
         finally
         {
@@ -50,7 +50,7 @@ public class HS : IHostedService, IDisposable //Stands for Hosted Service
 
     private async Task CurrentTask()
     {
-        await UD.UpdateDataBase(); //Calling the update function
+        await RT.ReqRandomIP(); //Calling the update function
         Console.WriteLine("Executed Function!(Hosted Service)"); //Execution Log
     }
 }

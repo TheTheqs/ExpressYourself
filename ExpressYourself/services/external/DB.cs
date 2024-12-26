@@ -27,10 +27,10 @@ public static class DB { //DB stands for DATABASE!!
         {
             using (var context = new IpLocatorContext())
             {
-                Console.WriteLine("Trying to save country");
+                Console.WriteLine($"[DataBase]Trying to save country {newCountry.Name}");
                 await context.Countries.AddAsync(newCountry);
                 await context.SaveChangesAsync();
-                Console.WriteLine("Country saved in th Database");
+                Console.WriteLine($"[DataBase]Country saved in th Database {newCountry.Name}");
                 return newCountry;
             };
         }
@@ -51,7 +51,7 @@ public static class DB { //DB stands for DATABASE!!
             Ipaddress newIP = new Ipaddress(cloneIP); //by that, you garantee that Country is null, this is necessary to avoid save it too.
             using (var context = new IpLocatorContext())
             {
-                Console.WriteLine("Tryng to save IP");
+                Console.WriteLine($"[DataBase]Tryng to save IP {newIP.Ip} in DataBase");
                 await context.Ipaddresses.AddAsync(newIP);
                 await context.SaveChangesAsync();
                 return true;
@@ -94,7 +94,6 @@ public static class DB { //DB stands for DATABASE!!
         {
             using (var context = new IpLocatorContext())
             {
-                Console.WriteLine($"[Request] The IP {ip} was successefully requested from the DataBase");
                 return await context.Ipaddresses
                 .Include(c => c.Country) //Necessary line to include the entire Country Object in the instance
                 .FirstOrDefaultAsync(i => i.Ip == ip);
