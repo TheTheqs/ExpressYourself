@@ -7,8 +7,8 @@ using Microsoft.Extensions.Caching.Memory;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache(); //Cache declaration needed.
 builder.Services.AddHostedService<HS>();//Hosted Services, for the Update Database System.
-builder.Services.AddHostedService<HT>();//Requisition test: Require a random ip every X minutes. Remove the comment to activate, access HT class to edit timer
-builder.Services.AddHostedService<EH>();//Endpoint requisition automatic test, remove the comment to activate.
+//builder.Services.AddHostedService<HT>();//Requisition test: Require a random ip every X minutes. Remove the comment to activate, access HT class to edit timer
+//builder.Services.AddHostedService<EH>();//Endpoint requisition automatic test, remove the comment to activate.
 DB.Initialize(builder.Configuration.GetConnectionString("PostgresConnection")); //DB configuration for the raw sql usage (third task)
 var app = builder.Build();
 //Cache configuration

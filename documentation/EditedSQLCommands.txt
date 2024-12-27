@@ -80,3 +80,9 @@ GROUP BY
     "Countries"."Name"
 ORDER BY 
     "Countries"."Name";
+
+The Following command was used to test System Update
+UPDATE "IPAddresses"
+SET "CountryId" = 1
+WHERE "Id" IN (90, 97, 100, 106, 108, 79, 71, 142, 144);
+
