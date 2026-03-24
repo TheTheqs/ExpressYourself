@@ -1,0 +1,11 @@
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\bin\Debug\net10.0\ExpressYourself.Domain.deps.json
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\bin\Debug\net10.0\ExpressYourself.Domain.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\bin\Debug\net10.0\ExpressYourself.Domain.pdb
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.AssemblyInfoInputs.cache
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.AssemblyInfo.cs
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.csproj.CoreCompileInputs.cache
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\refint\ExpressYourself.Domain.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ExpressYourself.Domain.pdb
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Domain\obj\Debug\net10.0\ref\ExpressYourself.Domain.dll

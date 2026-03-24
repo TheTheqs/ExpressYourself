@@ -1,0 +1,15 @@
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\bin\Debug\net10.0\ExpressYourself.Application.deps.json
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\bin\Debug\net10.0\ExpressYourself.Application.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\bin\Debug\net10.0\ExpressYourself.Application.pdb
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\bin\Debug\net10.0\ExpressYourself.Domain.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\bin\Debug\net10.0\ExpressYourself.Domain.pdb
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.csproj.AssemblyReference.cache
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.AssemblyInfoInputs.cache
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.AssemblyInfo.cs
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.csproj.CoreCompileInputs.cache
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressY.7865B0C8.Up2Date
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\refint\ExpressYourself.Application.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.pdb
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ref\ExpressYourself.Application.dll

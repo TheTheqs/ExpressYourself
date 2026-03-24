@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ExpressYourself.Api/ExpressYourself.Api.csproj" />
+  <Project Path="ExpressYourself.Application/ExpressYourself.Application.csproj" />
+  <Project Path="ExpressYourself.Domain/ExpressYourself.Domain.csproj" />
+  <Project Path="ExpressYourself.Infrastructure/ExpressYourself.Infrastructure.csproj" />
+  <Project Path="ExpressYourself.Tests/ExpressYourself.Tests.csproj" />
+</Solution>

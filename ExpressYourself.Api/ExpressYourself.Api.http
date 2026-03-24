@@ -1,0 +1,6 @@
+@ExpressYourself.Api_HostAddress = http://localhost:5012
+
+GET {{ExpressYourself.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
