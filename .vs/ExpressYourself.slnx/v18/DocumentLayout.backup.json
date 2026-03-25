@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\expressyourself.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\expressyourself.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\entities\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\entities\\country.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\entities\\ipaddress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\entities\\ipaddress.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\valueobjects\\ipaddressvalue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\valueobjects\\ipaddressvalue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E023AD48-FECB-4E49-BBAE-A6AFCC7A8644}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\exceptions\\domainexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\exceptions\\domainexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\enums\\ipaddressversion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\enums\\ipaddressversion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.domain\\expressyourself.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{264E55EC-23BA-90E7-1101-683A441EE011}|ExpressYourself.Domain\\ExpressYourself.Domain.csproj|solutionrelative:expressyourself.domain\\expressyourself.domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\expressyourself.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\expressyourself.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|d:\\dev\\dotnet\\projects\\expressyourself\\expressyourself\\expressyourself.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C019B62E-6E7A-CC5B-5568-D7D605106D4B}|ExpressYourself.Api\\ExpressYourself.Api.csproj|solutionrelative:expressyourself.api\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +50,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Program.cs",
               "RelativeDocumentMoniker": "ExpressYourself.Api\\Program.cs",
               "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Program.cs",
               "RelativeToolTip": "ExpressYourself.Api\\Program.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAADYAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACgAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-24T08:46:34.422Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ExpressYourself.Api",
-              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\ExpressYourself.Api.csproj",
-              "RelativeDocumentMoniker": "ExpressYourself.Api\\ExpressYourself.Api.csproj",
-              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\ExpressYourself.Api.csproj",
-              "RelativeToolTip": "ExpressYourself.Api\\ExpressYourself.Api.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-03-24T09:23:21.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\WeatherForecast.cs",
-              "RelativeDocumentMoniker": "ExpressYourself.Api\\WeatherForecast.cs",
-              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\WeatherForecast.cs",
-              "RelativeToolTip": "ExpressYourself.Api\\WeatherForecast.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-24T09:13:42.758Z",
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAqAAAAAAAAAA==",
+              "Title": "DomainException.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Exceptions\\DomainException.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\Exceptions\\DomainException.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Exceptions\\DomainException.cs",
+              "RelativeToolTip": "ExpressYourself.Domain\\Exceptions\\DomainException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-24T09:13:13.834Z",
+              "WhenOpened": "2026-03-25T21:13:36.59Z",
               "EditorCaption": ""
             },
             {
@@ -86,8 +83,104 @@
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IpAddressVersion.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Enums\\IpAddressVersion.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\Enums\\IpAddressVersion.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Enums\\IpAddressVersion.cs",
+              "RelativeToolTip": "ExpressYourself.Domain\\Enums\\IpAddressVersion.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T20:46:13.728Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IpAddressValue.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\ValueObjects\\IpAddressValue.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\ValueObjects\\IpAddressValue.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\ValueObjects\\IpAddressValue.cs",
+              "RelativeToolTip": "ExpressYourself.Domain\\ValueObjects\\IpAddressValue.cs",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAcwE0AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T20:45:58.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IpAddress.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Entities\\IpAddress.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\Entities\\IpAddress.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Entities\\IpAddress.cs",
+              "RelativeToolTip": "ExpressYourself.Domain\\Entities\\IpAddress.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAA0wCAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T20:45:45.895Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Country.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Entities\\Country.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\Entities\\Country.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\Entities\\Country.cs",
+              "RelativeToolTip": "ExpressYourself.Domain\\Entities\\Country.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAgwBsAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-25T20:45:32.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ExpressYourself.Domain.csproj",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\ExpressYourself.Domain.csproj",
+              "RelativeDocumentMoniker": "ExpressYourself.Domain\\ExpressYourself.Domain.csproj",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Domain\\ExpressYourself.Domain.csproj",
+              "RelativeToolTip": "ExpressYourself.Domain\\ExpressYourself.Domain.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-25T20:38:28.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ExpressYourself.Api.csproj",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\ExpressYourself.Api.csproj",
+              "RelativeDocumentMoniker": "ExpressYourself.Api\\ExpressYourself.Api.csproj",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\ExpressYourself.Api.csproj",
+              "RelativeToolTip": "ExpressYourself.Api\\ExpressYourself.Api.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-24T09:23:21.061Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Api\\WeatherForecast.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\WeatherForecast.cs",
+              "RelativeToolTip": "ExpressYourself.Api\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:13:42.758Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "D:\\dev\\dotnet\\projects\\ExpressYourself\\ExpressYourself\\ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "ExpressYourself.Api\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-24T09:13:13.834Z"
             }
           ]
         }
