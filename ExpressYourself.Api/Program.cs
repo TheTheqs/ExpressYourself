@@ -1,3 +1,5 @@
+using ExpressYourself.Api.ExceptionHandling;
+using ExpressYourself.Application.UseCases.GetIpInformation;
 using ExpressYourself.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi;
 using System.Reflection;
@@ -32,18 +34,21 @@ builder.Services.AddSwaggerGen(options =>
     }
 });
 
+// Problem details / global exception handling
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 // Dependency Injection
 builder.Services.AddInfrastructure(builder.Configuration);
-
-// Register future application services here.
-// Example:
-// builder.Services.AddApplication();
+builder.Services.AddScoped<GetIpInformationUseCase>();
 
 #endregion
 
 var app = builder.Build();
 
 #region Middleware Pipeline
+
+app.UseExceptionHandler();
 
 // Swagger
 app.UseSwagger();

@@ -1,4 +1,6 @@
-﻿using ExpressYourself.Infrastructure.Persistence;
+﻿using ExpressYourself.Application.Interfaces;
+using ExpressYourself.Infrastructure.Persistence;
+using ExpressYourself.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +33,14 @@ public static class InfrastructureServiceCollectionExtensions
                 "The connection string 'DefaultConnection' was not found.");
         }
 
+        // DbContext
         services.AddDbContext<ExpressYourselfDbContext>(options =>
         {
             options.UseSqlServer(connectionString);
         });
+
+        // Repositories
+        services.AddScoped<IIpAddressRepository, IpAddressRepository>();
 
         return services;
     }
