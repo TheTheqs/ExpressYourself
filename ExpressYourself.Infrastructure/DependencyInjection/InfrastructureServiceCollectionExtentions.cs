@@ -3,6 +3,7 @@ using ExpressYourself.Infrastructure.Caching;
 using ExpressYourself.Infrastructure.ExternalProviders;
 using ExpressYourself.Infrastructure.Persistence;
 using ExpressYourself.Infrastructure.Persistence.Repositories;
+using ExpressYourself.Infrastructure.Reporting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,10 @@ public static class InfrastructureServiceCollectionExtensions
         {
             options.UseSqlServer(connectionString);
         });
+
+        //Reporting (RawSQL Repository)
+        services.AddScoped<IAddressReportRepository>(_ =>
+            new AddressReportRepository(connectionString));
 
         // Caching
         services.AddMemoryCache();
