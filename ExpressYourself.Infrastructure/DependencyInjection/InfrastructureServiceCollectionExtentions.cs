@@ -1,4 +1,5 @@
 ﻿using ExpressYourself.Application.Interfaces;
+using ExpressYourself.Infrastructure.Caching;
 using ExpressYourself.Infrastructure.Persistence;
 using ExpressYourself.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,10 @@ public static class InfrastructureServiceCollectionExtensions
         {
             options.UseSqlServer(connectionString);
         });
+
+        // Caching
+        services.AddMemoryCache();
+        services.AddScoped<ICacheService, MemoryCacheService>();
 
         // Repositories
         services.AddScoped<IIpAddressRepository, IpAddressRepository>();
