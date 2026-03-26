@@ -69,7 +69,7 @@ public sealed class IpInformationControllerTests
     public async Task Get_Should_ReturnNotFound_When_IpDoesNotExist()
     {
         // Arrange
-        var nonExistingIp = "201.202.203.204";
+        var nonExistingIp = "2001:db8::1";
 
         // Act
         var response = await _httpClient.GetAsync($"/api/IpInformation?ip={nonExistingIp}");

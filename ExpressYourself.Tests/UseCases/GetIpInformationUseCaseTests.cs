@@ -1,5 +1,7 @@
 ﻿using ExpressYourself.Application.Interfaces;
+using ExpressYourself.Application.Models;
 using ExpressYourself.Application.UseCases.GetIpInformation;
+using ExpressYourself.Domain.Entities;
 using ExpressYourself.Domain.ValueObjects;
 using FluentAssertions;
 
@@ -11,7 +13,7 @@ namespace ExpressYourself.Tests.UseCases;
 public sealed class GetIpInformationUseCaseTests
 {
     /// <summary>
-    /// Should return cached response and avoid database access when the IP is already in cache.
+    /// Should return cached response and avoid database and external provider access when the IP is already in cache.
     /// </summary>
     [Fact]
     public async Task ExecuteAsync_Should_ReturnCachedResponse_When_IpExistsInCache()
@@ -33,8 +35,14 @@ public sealed class GetIpInformationUseCaseTests
         };
 
         var repository = new FakeIpAddressRepository();
+        var provider = new FakeIpInformationProvider();
+        var countryService = new FakeCountryService();
 
-        var useCase = new GetIpInformationUseCase(repository, cacheService);
+        var useCase = new GetIpInformationUseCase(
+            repository,
+            cacheService,
+            provider,
+            countryService);
 
         // Act
         var result = await useCase.ExecuteAsync(ip);
@@ -44,11 +52,17 @@ public sealed class GetIpInformationUseCaseTests
         result.Should().BeSameAs(cachedResponse);
 
         repository.GetInformationByAddressCallCount.Should().Be(0);
+        repository.AddCallCount.Should().Be(0);
+        repository.SaveChangesCallCount.Should().Be(0);
+
+        provider.GetInformationCallCount.Should().Be(0);
+        countryService.GetOrCreateCallCount.Should().Be(0);
+
         cacheService.SetCallCount.Should().Be(0);
     }
 
     /// <summary>
-    /// Should query the database, cache the result and return it when the IP is not found in cache.
+    /// Should query the database, cache the result and avoid the external provider when the IP is not found in cache.
     /// </summary>
     [Fact]
     public async Task ExecuteAsync_Should_QueryDatabase_AndCacheResult_When_IpIsNotInCache()
@@ -71,7 +85,14 @@ public sealed class GetIpInformationUseCaseTests
             ResponseToReturn = databaseResponse
         };
 
-        var useCase = new GetIpInformationUseCase(repository, cacheService);
+        var provider = new FakeIpInformationProvider();
+        var countryService = new FakeCountryService();
+
+        var useCase = new GetIpInformationUseCase(
+            repository,
+            cacheService,
+            provider,
+            countryService);
 
         // Act
         var result = await useCase.ExecuteAsync(ip);
@@ -84,16 +105,92 @@ public sealed class GetIpInformationUseCaseTests
         result.ThreeLetterCode.Should().HaveLength(3);
 
         repository.GetInformationByAddressCallCount.Should().Be(1);
+        repository.AddCallCount.Should().Be(0);
+        repository.SaveChangesCallCount.Should().Be(0);
+
+        provider.GetInformationCallCount.Should().Be(0);
+        countryService.GetOrCreateCallCount.Should().Be(0);
+
         cacheService.SetCallCount.Should().Be(1);
         cacheService.LastStoredIp.Should().Be(ip);
         cacheService.LastStoredResponse.Should().NotBeNull();
     }
 
     /// <summary>
-    /// Should return null and avoid cache storage when the IP is not found in cache or database.
+    /// Should use the external provider, resolve country, persist the IP address and cache the result
+    /// when the IP is not found in cache or database.
     /// </summary>
     [Fact]
-    public async Task ExecuteAsync_Should_ReturnNull_When_IpIsNotInCacheOrDatabase()
+    public async Task ExecuteAsync_Should_UseProvider_ResolveCountry_PersistIp_AndCache_When_IpIsNotInCacheOrDatabase()
+    {
+        // Arrange
+        var ip = "191.202.239.155";
+
+        var providerResponse = new IpInformationProviderResponse
+        {
+            Ip = ip,
+            CountryName = "Brazil",
+            TwoLetterCode = "BR",
+            ThreeLetterCode = "BRA"
+        };
+
+        var cacheService = new FakeCacheService();
+
+        var repository = new FakeIpAddressRepository
+        {
+            ResponseToReturn = null
+        };
+
+        var provider = new FakeIpInformationProvider
+        {
+            ResponseToReturn = providerResponse
+        };
+
+        var countryService = new FakeCountryService
+        {
+            CountryToReturn = new Country("Brazil", "BR", "BRA")
+        };
+
+        var useCase = new GetIpInformationUseCase(
+            repository,
+            cacheService,
+            provider,
+            countryService);
+
+        // Act
+        var result = await useCase.ExecuteAsync(ip);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Ip.Should().Be(ip);
+        result.CountryName.Should().Be("Brazil");
+        result.TwoLetterCode.Should().Be("BR");
+        result.ThreeLetterCode.Should().Be("BRA");
+
+        repository.GetInformationByAddressCallCount.Should().Be(1);
+        repository.AddCallCount.Should().Be(1);
+        repository.SaveChangesCallCount.Should().Be(1);
+        repository.LastAddedIpAddress.Should().NotBeNull();
+        repository.LastAddedIpAddress!.Address.Value.Should().Be(ip);
+
+        provider.GetInformationCallCount.Should().Be(1);
+
+        countryService.GetOrCreateCallCount.Should().Be(1);
+        countryService.LastCountryName.Should().Be("Brazil");
+        countryService.LastTwoLetterCode.Should().Be("BR");
+        countryService.LastThreeLetterCode.Should().Be("BRA");
+
+        cacheService.SetCallCount.Should().Be(1);
+        cacheService.LastStoredIp.Should().Be(ip);
+        cacheService.LastStoredResponse.Should().NotBeNull();
+    }
+
+    /// <summary>
+    /// Should return null and avoid persistence and caching when the IP is not found in cache,
+    /// database or external provider.
+    /// </summary>
+    [Fact]
+    public async Task ExecuteAsync_Should_ReturnNull_When_IpIsNotFoundInCacheDatabaseOrProvider()
     {
         // Arrange
         var ip = "201.202.203.204";
@@ -105,7 +202,18 @@ public sealed class GetIpInformationUseCaseTests
             ResponseToReturn = null
         };
 
-        var useCase = new GetIpInformationUseCase(repository, cacheService);
+        var provider = new FakeIpInformationProvider
+        {
+            ResponseToReturn = null
+        };
+
+        var countryService = new FakeCountryService();
+
+        var useCase = new GetIpInformationUseCase(
+            repository,
+            cacheService,
+            provider,
+            countryService);
 
         // Act
         var result = await useCase.ExecuteAsync(ip);
@@ -114,6 +222,45 @@ public sealed class GetIpInformationUseCaseTests
         result.Should().BeNull();
 
         repository.GetInformationByAddressCallCount.Should().Be(1);
+        repository.AddCallCount.Should().Be(0);
+        repository.SaveChangesCallCount.Should().Be(0);
+
+        provider.GetInformationCallCount.Should().Be(1);
+
+        countryService.GetOrCreateCallCount.Should().Be(0);
+
+        cacheService.SetCallCount.Should().Be(0);
+    }
+
+    /// <summary>
+    /// Should throw an exception when the IP format is invalid.
+    /// </summary>
+    [Fact]
+    public async Task ExecuteAsync_Should_ThrowArgumentException_When_IpIsInvalid()
+    {
+        // Arrange
+        var invalidIp = "abc.invalid.ip";
+
+        var cacheService = new FakeCacheService();
+        var repository = new FakeIpAddressRepository();
+        var provider = new FakeIpInformationProvider();
+        var countryService = new FakeCountryService();
+
+        var useCase = new GetIpInformationUseCase(
+            repository,
+            cacheService,
+            provider,
+            countryService);
+
+        // Act
+        Func<Task> act = async () => await useCase.ExecuteAsync(invalidIp);
+
+        // Assert
+        await act.Should().ThrowAsync<Domain.Exceptions.DomainException>();
+
+        repository.GetInformationByAddressCallCount.Should().Be(0);
+        provider.GetInformationCallCount.Should().Be(0);
+        countryService.GetOrCreateCallCount.Should().Be(0);
         cacheService.SetCallCount.Should().Be(0);
     }
 
@@ -154,8 +301,11 @@ public sealed class GetIpInformationUseCaseTests
     {
         public GetIpInformationResponse? ResponseToReturn { get; set; }
         public int GetInformationByAddressCallCount { get; private set; }
+        public int AddCallCount { get; private set; }
+        public int SaveChangesCallCount { get; private set; }
+        public IpAddress? LastAddedIpAddress { get; private set; }
 
-        public Task<Domain.Entities.IpAddress?> GetByAddressAsync(
+        public Task<IpAddress?> GetByAddressAsync(
             IpAddressValue address,
             CancellationToken cancellationToken = default)
         {
@@ -167,11 +317,10 @@ public sealed class GetIpInformationUseCaseTests
             CancellationToken cancellationToken = default)
         {
             GetInformationByAddressCallCount++;
-
             return Task.FromResult(ResponseToReturn);
         }
 
-        public Task<IReadOnlyCollection<Domain.Entities.IpAddress>> GetBatchAsync(
+        public Task<IReadOnlyCollection<IpAddress>> GetBatchAsync(
             int skip,
             int take,
             CancellationToken cancellationToken = default)
@@ -180,20 +329,66 @@ public sealed class GetIpInformationUseCaseTests
         }
 
         public Task AddAsync(
-            Domain.Entities.IpAddress ipAddress,
+            IpAddress ipAddress,
             CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            AddCallCount++;
+            LastAddedIpAddress = ipAddress;
+            return Task.CompletedTask;
         }
 
-        public void Update(Domain.Entities.IpAddress ipAddress)
+        public void Update(IpAddress ipAddress)
         {
             throw new NotImplementedException();
         }
 
         public Task SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            SaveChangesCallCount++;
+            return Task.CompletedTask;
+        }
+    }
+
+    /// <summary>
+    /// Fake external provider used to control external lookup behavior during tests.
+    /// </summary>
+    private sealed class FakeIpInformationProvider : IIpInformationProvider
+    {
+        public IpInformationProviderResponse? ResponseToReturn { get; set; }
+        public int GetInformationCallCount { get; private set; }
+
+        public Task<IpInformationProviderResponse?> GetInformationAsync(
+            string ip,
+            CancellationToken cancellationToken = default)
+        {
+            GetInformationCallCount++;
+            return Task.FromResult(ResponseToReturn);
+        }
+    }
+
+    /// <summary>
+    /// Fake country service used to control country resolution behavior during tests.
+    /// </summary>
+    private sealed class FakeCountryService : ICountryService
+    {
+        public int GetOrCreateCallCount { get; private set; }
+        public string? LastCountryName { get; private set; }
+        public string? LastTwoLetterCode { get; private set; }
+        public string? LastThreeLetterCode { get; private set; }
+        public Country CountryToReturn { get; set; } = new Country("Brazil", "BR", "BRA");
+
+        public Task<Country> GetOrCreateAsync(
+            string countryName,
+            string twoLetterCode,
+            string threeLetterCode,
+            CancellationToken cancellationToken = default)
+        {
+            GetOrCreateCallCount++;
+            LastCountryName = countryName;
+            LastTwoLetterCode = twoLetterCode;
+            LastThreeLetterCode = threeLetterCode;
+
+            return Task.FromResult(CountryToReturn);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ExpressYourself.Application.Interfaces;
 using ExpressYourself.Infrastructure.Caching;
+using ExpressYourself.Infrastructure.ExternalProviders;
 using ExpressYourself.Infrastructure.Persistence;
 using ExpressYourself.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,6 @@ namespace ExpressYourself.Infrastructure.DependencyInjection;
 /// </summary>
 public static class InfrastructureServiceCollectionExtensions
 {
-    /// <summary>
-    /// Registers infrastructure services and database access dependencies.
-    /// </summary>
-    /// <param name="services">The service collection.</param>
-    /// <param name="configuration">The application configuration.</param>
-    /// <returns>The updated service collection.</returns>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when the default database connection string is not configured.
-    /// </exception>
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -44,8 +36,15 @@ public static class InfrastructureServiceCollectionExtensions
         services.AddMemoryCache();
         services.AddScoped<ICacheService, MemoryCacheService>();
 
+        // Providers
+        services.AddHttpClient<IIpInformationProvider, Ip2cIpInformationProvider>(client =>
+        {
+            client.BaseAddress = new Uri("https://ip2c.org/");
+        });
+
         // Repositories
         services.AddScoped<IIpAddressRepository, IpAddressRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
 
         return services;
     }
