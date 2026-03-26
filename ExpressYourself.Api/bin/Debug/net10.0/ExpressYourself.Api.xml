@@ -4,6 +4,23 @@
         <name>ExpressYourself.Api</name>
     </assembly>
     <members>
+        <member name="T:ExpressYourself.Api.Controllers.DatabaseTestController">
+            <summary>
+            Provides temporary endpoints to validate database connectivity and mappings.
+            </summary>
+        </member>
+        <member name="M:ExpressYourself.Api.Controllers.DatabaseTestController.#ctor(ExpressYourself.Infrastructure.Persistence.ExpressYourselfDbContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ExpressYourself.Api.Controllers.DatabaseTestController"/> class.
+            </summary>
+            <param name="dbContext">The database context.</param>
+        </member>
+        <member name="M:ExpressYourself.Api.Controllers.DatabaseTestController.GetCountries(System.Threading.CancellationToken)">
+            <summary>
+            Returns a small list of countries from the database to validate connectivity.
+            </summary>
+            <returns>A list of countries loaded from the database.</returns>
+        </member>
         <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
             <summary>
             Generates a documentation comment ID for a type.

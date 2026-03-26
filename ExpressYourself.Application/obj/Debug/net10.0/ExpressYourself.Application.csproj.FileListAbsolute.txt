@@ -13,3 +13,4 @@ D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Applicati
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\refint\ExpressYourself.Application.dll
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.pdb
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ref\ExpressYourself.Application.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Application\obj\Debug\net10.0\ExpressYourself.Application.sourcelink.json

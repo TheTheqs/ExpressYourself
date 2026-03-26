@@ -1,3 +1,4 @@
+using ExpressYourself.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi;
 using System.Reflection;
 
@@ -32,7 +33,11 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Dependency Injection
-// Register future application, infrastructure and external services here.
+builder.Services.AddInfrastructure(builder.Configuration);
+
+// Register future application services here.
+// Example:
+// builder.Services.AddApplication();
 
 #endregion
 

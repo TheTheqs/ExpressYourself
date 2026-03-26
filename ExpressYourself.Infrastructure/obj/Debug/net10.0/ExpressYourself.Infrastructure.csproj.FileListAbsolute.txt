@@ -17,3 +17,4 @@ D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Infrastru
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Infrastructure\obj\Debug\net10.0\ExpressYourself.Infrastructure.pdb
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Infrastructure\obj\Debug\net10.0\ExpressYourself.Infrastructure.genruntimeconfig.cache
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Infrastructure\obj\Debug\net10.0\ref\ExpressYourself.Infrastructure.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Infrastructure\obj\Debug\net10.0\ExpressYourself.Infrastructure.sourcelink.json

@@ -84,3 +84,4 @@ D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Api\obj\D
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Api\obj\Debug\net10.0\ExpressYourself.Api.pdb
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Api\obj\Debug\net10.0\ExpressYourself.Api.genruntimeconfig.cache
 D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Api\obj\Debug\net10.0\ref\ExpressYourself.Api.dll
+D:\dev\dotnet\projects\ExpressYourself\ExpressYourself\ExpressYourself.Api\obj\Debug\net10.0\ExpressYourself.Api.sourcelink.json
