@@ -68,6 +68,22 @@ public sealed class MemoryCacheService : ICacheService
     }
 
     /// <summary>
+    /// Removes cached IP information for the given IP address.
+    /// </summary>
+    /// <param name="ip">The IP address used as cache key reference.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    public Task RemoveIpInformationAsync(
+        string ip,
+        CancellationToken cancellationToken = default)
+    {
+        var cacheKey = BuildCacheKey(ip);
+
+        _memoryCache.Remove(cacheKey);
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Builds the cache key for a given IP address.
     /// </summary>
     /// <param name="ip">The IP address.</param>

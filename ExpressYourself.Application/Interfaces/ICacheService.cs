@@ -29,4 +29,13 @@ public interface ICacheService
         string ip,
         GetIpInformationResponse response,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Removes cached IP information for the given IP address.
+    /// </summary>
+    /// <param name="ip">The IP address used as cache key reference.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    Task RemoveIpInformationAsync(
+        string ip,
+        CancellationToken cancellationToken = default);
 }

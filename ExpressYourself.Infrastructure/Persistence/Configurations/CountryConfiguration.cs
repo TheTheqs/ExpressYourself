@@ -24,8 +24,8 @@ public sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
 
         builder.Property(country => country.Name)
             .HasColumnName("Name")
-            .HasColumnType("varchar(50)")
-            .HasMaxLength(50)
+            .HasColumnType("varchar(100)")
+            .HasMaxLength(100)
             .IsRequired();
 
         builder.Property(country => country.TwoLetterCode)

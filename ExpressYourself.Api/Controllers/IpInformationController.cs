@@ -1,4 +1,5 @@
 ﻿using ExpressYourself.Application.UseCases.GetIpInformation;
+using ExpressYourself.Application.UseCases.RefreshIpInformation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExpressYourself.Api.Controllers;
@@ -11,14 +12,17 @@ namespace ExpressYourself.Api.Controllers;
 public sealed class IpInformationController : ControllerBase
 {
     private readonly GetIpInformationUseCase _getIpInformationUseCase;
+    private readonly RefreshIpInformationUseCase _refreshIpInformationUseCase;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IpInformationController"/> class.
     /// </summary>
     /// <param name="getIpInformationUseCase">The use case responsible for retrieving IP information.</param>
-    public IpInformationController(GetIpInformationUseCase getIpInformationUseCase)
+    /// <param name="refreshIpInformationUseCase">Temporary for tests</param>
+    public IpInformationController(GetIpInformationUseCase getIpInformationUseCase, RefreshIpInformationUseCase refreshIpInformationUseCase)
     {
         _getIpInformationUseCase = getIpInformationUseCase;
+        _refreshIpInformationUseCase = refreshIpInformationUseCase;
     }
 
     /// <summary>
@@ -46,4 +50,22 @@ public sealed class IpInformationController : ControllerBase
 
         return Ok(result);
     }
+
+    /// <summary>
+    /// Refreshes stored IP information in batches.
+    /// This endpoint is intended for temporary manual validation before automation is enabled.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A summary of the refresh execution.</returns>
+    [HttpPost("refresh")]
+    [ProducesResponseType(typeof(RefreshIpInformationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Refresh(
+        CancellationToken cancellationToken)
+    {
+        var result = await _refreshIpInformationUseCase.ExecuteAsync(cancellationToken);
+
+        return Ok(result);
+    }
+
 }
