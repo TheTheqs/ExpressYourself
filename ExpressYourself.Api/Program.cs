@@ -3,6 +3,7 @@ using ExpressYourself.Application.Interfaces;
 using ExpressYourself.Application.Services;
 using ExpressYourself.Application.UseCases.GetIpInformation;
 using ExpressYourself.Application.UseCases.RefreshIpInformation;
+using ExpressYourself.Infrastructure.BackgroundJobs;
 using ExpressYourself.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi;
 using System.Reflection;
@@ -45,7 +46,12 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<GetIpInformationUseCase>();
 builder.Services.AddScoped<RefreshIpInformationUseCase>();
+
 builder.Services.AddScoped<ICountryService, CountryService>();
+
+builder.Services.Configure<RefreshIpInformationJobOptions>(
+    builder.Configuration.GetSection("BackgroundJobs:RefreshIpInformation"));
+builder.Services.AddHostedService<RefreshIpInformationJob>();
 
 #endregion
 

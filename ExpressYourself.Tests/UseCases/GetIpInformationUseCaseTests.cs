@@ -292,6 +292,13 @@ public sealed class GetIpInformationUseCaseTests
 
             return Task.CompletedTask;
         }
+
+        public Task RemoveIpInformationAsync(
+        string ip,
+        CancellationToken cancellationToken = default)
+        {
+            return Task.CompletedTask;
+        }
     }
 
     /// <summary>
